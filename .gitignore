@@ -1,0 +1,5 @@
+# virtualenv
+venv/
+
+# JetBrains Project Folder
+.idea/
