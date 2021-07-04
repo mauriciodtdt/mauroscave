@@ -3,3 +3,6 @@ venv/
 
 # JetBrains Project Folder
 .idea/
+
+# db.sqlite
+mauroscave/db.sqlite3
