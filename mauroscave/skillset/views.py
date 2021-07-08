@@ -4,5 +4,5 @@ from .models import Skill
 
 # Create your views here.
 def skills(request):
-    skills = Skill.objects
+    skills = Skill.objects.order_by('-date')
     return render(request, 'skillset/skills.html', {'skills': skills})
