@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', thecave.views.homepage, name='home'),
+    path('thecave/<str:project_name>', thecave.views.detail, name='detail'),
     path('skills', skillset.views.skills, name='skills')
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

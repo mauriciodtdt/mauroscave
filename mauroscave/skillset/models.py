@@ -6,13 +6,13 @@ class Skill(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateField(null=True, blank=True)
     file = models.FileField(upload_to='files/')
-    externalLink = models.URLField(null=True, blank=True)
+    external_link = models.URLField(null=True, blank=True)
     summary = models.CharField(max_length=300)
 
     def __str__(self):
         return self.name
 
     def get_location(self):
-        if not self.externalLink:
+        if not self.external_link:
             return self.file.url
-        return self.externalLink
+        return self.external_link
