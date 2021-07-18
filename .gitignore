@@ -3,6 +3,7 @@ venv/
 
 # JetBrains Project Folder
 .idea/
+__pycache__/
 
 # db.sqlite
 mauroscave/db.sqlite3
