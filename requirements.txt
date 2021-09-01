@@ -1,2 +1,5 @@
 django
 pillow
+djangorestframework
+python-binance
+APScheduler
