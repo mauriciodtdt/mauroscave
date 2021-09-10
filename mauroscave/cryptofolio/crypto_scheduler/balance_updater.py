@@ -1,5 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from cryptofolio.models import Balance, User
+from cryptofolio.models import User
 from cryptofolio.views import BalanceViewset
 from binance.client import Client
 # import logging
@@ -10,13 +10,14 @@ from binance.client import Client
 
 def start():
     scheduler = BackgroundScheduler()
-    balance = BalanceViewset()
+    scheduler.add_job(update_user_balances,
+                      "interval", minutes=1,
+                      id=f'balance_updater',
+                      replace_existing=True)
+    scheduler.start()
+
+def update_user_balances():
     users = User.objects.all()
+    balance = BalanceViewset()
     for user in users:
-        client = Client(user.api_key, user.api_secret)
-        scheduler.add_job(balance.save_balance_data,
-                          "interval", minutes=1,
-                          kwargs={'user_client': client},
-                          id=f'balance_updater_{user.username}',
-                          replace_existing=True)
-        scheduler.start()
+        balance.save_balance_data(user)

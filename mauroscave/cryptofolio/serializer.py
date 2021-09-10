@@ -4,4 +4,4 @@ from .models import Balance
 class BalanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Balance
-        fields = ["id", "timestamp", "usdt_balance", "aud_balance", "btc_balance"]
+        fields = ["user_nickname", "timestamp", "usdt_balance", "aud_balance", "btc_balance"]

@@ -28,11 +28,12 @@ class BalanceViewset(viewsets.ModelViewSet):
     #     balances = user_client.get_account().get('balances')
     #     return balances
 
-    def save_balance_data(self, user_client):
+    def save_balance_data(self, user: User):
         total_usdt_balance = total_aud_balance = total_btc_balance = 0
         # user_balances = self.get_coins_balances(user_client)
         # if user_balances is not None:
             # print(f'Balance: {user_balance}')
+        user_client = Client(user.api_key, user.api_secret)
         coins = self.get_coins_balances(user_client)
         for coin in coins:
             coin_usdt_value = (coin.free + coin.locked) * coin.usdt_ticker
@@ -46,6 +47,11 @@ class BalanceViewset(viewsets.ModelViewSet):
         print(f'Total USDT Balance: {total_usdt_balance}\n'
               f'Total AUD Balance: {total_aud_balance}\n'
               f'Total BTC Balance: {total_btc_balance}\n')
+        user_balance = Balance(user=user,
+                               usdt_balance=total_usdt_balance, 
+                               aud_balance=total_aud_balance,
+                               btc_balance=total_btc_balance)
+        user_balance.save()
 
     def get_coins_balances(self, client):
         coins = []
@@ -56,7 +62,7 @@ class BalanceViewset(viewsets.ModelViewSet):
             asset = asset_balance.get('asset')
             free_asset = float(asset_balance.get('free'))
             locked_asset = float(asset_balance.get('locked'))
-            if (free_asset == locked_asset == 0) or asset == 'LDUSDT':
+            if (free_asset == locked_asset == 0) or asset == 'LDUSDT' or asset == 'NFT':
                 continue
             # print(f'Getiing ticker for symbol {asset}USDT with balance {free_asset} and {locked_asset}')
             if 'LD' in asset:
